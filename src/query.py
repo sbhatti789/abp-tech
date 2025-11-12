@@ -34,6 +34,11 @@ def query_faiss(query_text, index_path="data/faiss.index", vectors_path="data/ve
         print(f"--- Result {rank} | Similarity: {score:.4f} ---")
         print(texts[idx][:350], "\n")  # show first ~350 characters
 
+
 if __name__ == "__main__":
-    # Example usage
-    query_faiss("Which crimes involved arrests?", top_k=5)
+    while True:
+        query_text = input("\n🔍 Enter your query (or type 'exit' to quit): ")
+        if query_text.lower() in ["exit", "quit"]:
+            print("Exiting query interface.")
+            break
+        query_faiss(query_text, top_k=5)
