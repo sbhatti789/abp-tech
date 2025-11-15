@@ -34,7 +34,7 @@ def embed_chunks(chunks, model_name="all-MiniLM-L6-v2", output_file="data/vector
     embeddings = model.encode(texts, convert_to_numpy=True, show_progress_bar=True)
 
     np.save(output_file, embeddings)
-    print(f"✅ Saved {len(embeddings)} vectors to {output_file}")
+    print(f"Saved {len(embeddings)} vectors to {output_file}")
     return embeddings
 
 if __name__ == "__main__":
