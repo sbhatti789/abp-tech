@@ -38,8 +38,11 @@ Description:
 
 # 4.4
 Source File: src/query.py
+
 Execute Code: python3 -m src.query
+
 Result Example: Enter your query: Which crimes involved arrests?
+
 Description: 
 * Lets the user ask any question
 * Embeds the query
