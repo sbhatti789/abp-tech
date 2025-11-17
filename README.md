@@ -2,8 +2,11 @@
 
 # 4.1
 Source File: src/chunker.py
+
 Execute Code: python3 src/chunker.py
+
 Result Example: Processed 1_CriminalDamage.txt: 5 full-sentence chunks created.
+
 Description: 
 * Reads all .txt documents in data/documents
 * Splits them into clean sentence-based chunks (about 3-4 sentences each)
@@ -11,8 +14,11 @@ Description:
 
 # 4.2
 Source File: src/embedder.py
+
 Execute Code: python3 src/embedder.py
+
 Result Example: Encoding 25 chunks... Saved 25 vectors to data/vectors.npy
+
 Description: 
 * Loads all chunks from data/chunks
 * Uses the model all-MiniLM-L6-v2 to create embeddings
@@ -20,8 +26,11 @@ Description:
 
 # 4.3
 Source File: src/vectordb.py
+
 Execute Code: python3 -m src.vectordb.py
+
 Result Example: Building FAISS index... Saved faiss.index
+
 Description: 
 * Creates a FAISS index (in-memory vector database)
 * Adds all embeddings to the index
