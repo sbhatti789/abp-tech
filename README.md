@@ -1,4 +1,4 @@
-# CS 480 Group Project Phase 4 - abp_tech - Samad Bhatti, Ayush Patel
+# CS 480 Group Project Phase 4 - abp-tech - Samad Bhatti, Ayush Patel
 
 # 4.1
 Source File: src/chunker.py
