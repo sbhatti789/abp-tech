@@ -2,10 +2,8 @@ import os
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
+#Reads all chunked text files and returns a list of (chunk_id, text) tuples.
 def load_chunks(folder_path="data/chunks"):
-    """
-    Reads all chunked text files and returns a list of (chunk_id, text) tuples.
-    """
     chunks = []
     for filename in os.listdir(folder_path):
         if filename.endswith("_chunks.txt"):
@@ -22,17 +20,14 @@ def load_chunks(folder_path="data/chunks"):
                             continue
     return chunks
 
+
+# Converts chunks to vector embeddings and saves them.  
 def embed_chunks(chunks, model_name="all-MiniLM-L6-v2", output_file="data/vectors.npy"):
-    """
-    Converts chunks to vector embeddings and saves them.
-    """
     model = SentenceTransformer(model_name)
     texts = [text for _, text in chunks]
     print(f"Encoding {len(texts)} chunks...")
-
     # Generate embeddings
     embeddings = model.encode(texts, convert_to_numpy=True, show_progress_bar=True)
-
     np.save(output_file, embeddings)
     print(f"Saved {len(embeddings)} vectors to {output_file}")
     return embeddings
