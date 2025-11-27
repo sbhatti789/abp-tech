@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search the Crime Database</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h2 { color: #222; }
+        .container { width: 70%; margin: auto; }
+        input[type="text"] {
+            width: 100%; padding: 12px; font-size: 16px;
+            border: 1px solid #aaa; border-radius: 6px;
+        }
+        button {
+            width: 100%; padding: 12px; margin-top: 10px;
+            background: #1e63ff; color: white; font-size: 18px;
+            border: none; border-radius: 6px; cursor: pointer;
+        }
+        .result {
+            border: 1px solid #ddd; padding: 15px; margin-top: 15px;
+            border-radius: 6px;
+        }
+        .result a {
+            font-weight: bold; color: #0066ff; text-decoration: none;
+        }
+        .score {
+            font-size: 13px; color: #444; margin-top: 5px;
+        }
+        a.back { display: block; margin-top: 25px; color: #0066ff; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <h2>🔍 Search the Crime Database</h2>
+
+    <form method="POST">
+        <input
+            type="text"
+            name="query"
+            placeholder="Enter your question..."
+            value="{{ query or '' }}"
+            required
+        >
+        <button type="submit">Search</button>
+    </form>
+
+    {% if results %}
+        <h3>Top Matches:</h3>
+        {% for item in results %}
+            <div class="result">
+                <a href="/document/{{ item.filename }}?chunk={{ item.chunk | urlencode }}">
+                    {{ item.filename }}
+                </a>
+
+                <!-- ✅ Show the first 300 characters of the matched text -->
+                <p>
+                    {{ item.chunk[:300] }}
+                    {% if item.chunk|length > 300 %}...{% endif %}
+                </p>
+
+                <p class="score">Score: {{ "%.4f"|format(item.score) }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <a href="/dashboard" class="back">⬅ Back to Dashboard</a>
+
+</div>
+</body>
+</html>

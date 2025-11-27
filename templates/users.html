@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Management</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h2 { text-align: center; color: #222; }
+        table { width: 80%; margin: auto; border-collapse: collapse; }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background: #1e63ff;
+            color: white;
+        }
+        a.back { display: block; margin-top: 25px; text-align:center; color: #0066ff; }
+    </style>
+</head>
+<body>
+
+<h2>👥 User Management</h2>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Role</th>
+        <th>Created At</th>
+    </tr>
+
+    {% for user in users %}
+    <tr>
+        <td>{{ user[0] }}</td>
+        <td>{{ user[1] }}</td>
+        <td>{{ user[2] }}</td>
+        <td>{{ user[3] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<a href="/dashboard" class="back">⬅ Back to Dashboard</a>
+
+</body>
+</html>

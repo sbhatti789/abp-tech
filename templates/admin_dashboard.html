@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 40px; }
+        h2 { color: #222; }
+        .container { width: 60%; margin: auto; }
+        a { display: block; margin: 15px; font-size: 18px; text-decoration: none; color: #0066ff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>✅ Admin Dashboard</h2>
+
+        <p>Welcome, {{ username }}!</p>
+
+        <a href="/users">👥 View Users</a>
+        <a href="/documents">📄 Manage Documents</a>
+        <a href="/upload">📄 Upload Document</a>
+        <a href="/search">🔍 Search Database</a>
+        <a href="/logout">🚪 Logout</a>
+    </div>
+</body>
+</html>
