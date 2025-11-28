@@ -1,3 +1,5 @@
+# app.py
+
 from flask import Flask, request, render_template, redirect, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
@@ -8,15 +10,17 @@ from src.query_sql import query_system
 from src.ingest_documents import ingest_document_file
 
 app = Flask(__name__)
-app.secret_key = "supersecretkey123"   # Change later if needed
+app.secret_key = "supersecretkey123"   # OK for class project
 
+# ------------------------------
 # Upload settings
+# ------------------------------
 UPLOAD_FOLDER = "data/documents"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = {"txt"}
 
 
-def allowed_file(filename):
+def allowed_file(filename: str) -> bool:
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
@@ -34,7 +38,7 @@ def home():
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
-        username = request.form["username"]
+        username = request.form["username"].strip()
         password = request.form["password"]
         role = request.form["role"]
 
@@ -47,15 +51,13 @@ def signup():
                 INSERT INTO users (username, password_hash, role)
                 VALUES (%s, %s, %s)
                 """,
-                (username, generate_password_hash(password), role)
+                (username, generate_password_hash(password), role),
             )
             conn.commit()
-            message = "✅ Account created! You can now log in."
-            return render_template("signup.html", message=message)
-        except:
+            return render_template("signup.html", message="✅ Account created! You can now log in.")
+        except Exception:
             conn.rollback()
-            message = "❌ Username already exists. Try another."
-            return render_template("signup.html", message=message)
+            return render_template("signup.html", message="❌ Username already exists.")
         finally:
             cur.close()
             conn.close()
@@ -69,15 +71,15 @@ def signup():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        username = request.form["username"]
+        username = request.form["username"].strip()
         password = request.form["password"]
 
         conn = get_connection()
         cur = conn.cursor()
 
         cur.execute(
-            "SELECT id, password_hash, role FROM users WHERE username=%s",
-            (username,)
+            "SELECT id, password_hash, role FROM users WHERE username = %s",
+            (username,),
         )
         user = cur.fetchone()
 
@@ -128,8 +130,16 @@ def users():
 
     conn = get_connection()
     cur = conn.cursor()
-    cur.execute("SELECT id, username, role, created_at FROM users ORDER BY id ASC")
+
+    cur.execute(
+        """
+        SELECT id, username, role, created_at
+        FROM users
+        ORDER BY id ASC;
+        """
+    )
     rows = cur.fetchall()
+
     cur.close()
     conn.close()
 
@@ -137,7 +147,68 @@ def users():
 
 
 # ------------------------------
-# SEARCH PAGE (VECTOR + LOGGING ✅)
+# ADMIN: EDIT USER ROLE
+# ------------------------------
+@app.route("/users/edit/<int:user_id>", methods=["GET", "POST"])
+def edit_user(user_id):
+    if "user_id" not in session or session.get("role") != "admin":
+        return redirect("/dashboard")
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("SELECT id, username, role FROM users WHERE id = %s", (user_id,))
+    user = cur.fetchone()
+
+    if not user:
+        cur.close()
+        conn.close()
+        return redirect("/users")
+
+    if request.method == "POST":
+        new_role = request.form["role"]
+        cur.execute("UPDATE users SET role = %s WHERE id = %s", (new_role, user_id))
+        conn.commit()
+        cur.close()
+        conn.close()
+        return redirect("/users")
+
+    cur.close()
+    conn.close()
+    return render_template("edit_user.html", user=user)
+
+
+# ------------------------------
+# ADMIN: DELETE USER + ASSOCIATED DATA
+# ------------------------------
+@app.route("/users/delete/<int:user_id>")
+def delete_user(user_id):
+    if "user_id" not in session or session.get("role") != "admin":
+        return redirect("/dashboard")
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("SELECT id FROM documents WHERE uploader_user_id = %s", (user_id,))
+    doc_ids = [row[0] for row in cur.fetchall()]
+
+    if doc_ids:
+        doc_ids_tuple = tuple(doc_ids)
+        cur.execute("DELETE FROM chunks WHERE document_id IN %s", (doc_ids_tuple,))
+        cur.execute("DELETE FROM documents WHERE id IN %s", (doc_ids_tuple,))
+
+    cur.execute("DELETE FROM query_logs WHERE user_id = %s", (user_id,))
+    cur.execute("DELETE FROM users WHERE id = %s", (user_id,))
+
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    return redirect("/logout")
+
+
+# ------------------------------
+# SEARCH + LOGGING
 # ------------------------------
 @app.route("/search", methods=["GET", "POST"])
 def search():
@@ -150,21 +221,49 @@ def search():
     if request.method == "POST":
         query = request.form["query"]
 
-        # ✅ Run vector search
         results = query_system(query)
 
-        # ✅ Log query
         conn = get_connection()
         cur = conn.cursor()
         cur.execute(
             "INSERT INTO query_logs (user_id, query_text) VALUES (%s, %s)",
-            (session["user_id"], query)
+            (session["user_id"], query),
         )
         conn.commit()
         cur.close()
         conn.close()
 
     return render_template("search.html", results=results, query=query)
+
+
+# ------------------------------
+# ADMIN: QUERY LOGS  (FIXED)
+# ------------------------------
+@app.route("/query_logs")
+def query_logs():
+    if "user_id" not in session or session.get("role") != "admin":
+        return redirect("/dashboard")
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute(
+        """
+        SELECT q.id,
+               COALESCE(u.username, 'Anonymous') AS username,
+               q.query_text,
+               q.timestamp        -- FIXED THIS LINE
+        FROM query_logs q
+        LEFT JOIN users u ON q.user_id = u.id
+        ORDER BY q.id ASC;
+        """
+    )
+    logs = cur.fetchall()
+
+    cur.close()
+    conn.close()
+
+    return render_template("query_logs.html", logs=logs)
 
 
 # ------------------------------
@@ -205,6 +304,8 @@ def view_document(filename):
     if "user_id" not in session:
         return redirect("/login")
 
+    highlighted_chunk = request.args.get("chunk")
+
     conn = get_connection()
     cur = conn.cursor()
 
@@ -218,7 +319,6 @@ def view_document(filename):
         """,
         (filename,)
     )
-
     rows = cur.fetchall()
 
     cur.close()
@@ -226,11 +326,18 @@ def view_document(filename):
 
     full_text = "\n\n".join(chunk[0] for chunk in rows)
 
+    if highlighted_chunk:
+        safe_chunk = highlighted_chunk.replace("<", "&lt;").replace(">", "&gt;")
+        full_text = full_text.replace(
+            highlighted_chunk,
+            f"<mark style='background: yellow'>{safe_chunk}</mark>"
+        )
+
     return render_template("document.html", filename=filename, full_text=full_text)
 
 
 # ------------------------------
-# MANAGE DOCUMENTS (ADMIN ONLY)
+# ADMIN: MANAGE DOCUMENTS
 # ------------------------------
 @app.route("/documents")
 def documents():
@@ -242,9 +349,13 @@ def documents():
 
     cur.execute(
         """
-        SELECT id, filename, uploaded_at
-        FROM documents
-        ORDER BY id ASC;
+        SELECT d.id,
+               d.filename,
+               d.uploaded_at,
+               COALESCE(u.username, 'Unknown') AS uploaded_by
+        FROM documents d
+        LEFT JOIN users u ON d.uploader_user_id = u.id
+        ORDER BY d.id ASC;
         """
     )
     rows = cur.fetchall()
@@ -256,7 +367,7 @@ def documents():
 
 
 # ------------------------------
-# DELETE DOCUMENT
+# ADMIN: DELETE DOCUMENT
 # ------------------------------
 @app.route("/documents/delete/<int:doc_id>")
 def delete_document(doc_id):
