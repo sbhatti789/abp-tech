@@ -49,4 +49,77 @@ Description:
 * Searches FAISS for the most similiar text chunks
 * Prints the top result with similarity scores
 
+# 3.1 
+User Authentication and Roles
 
+Source File: app.py, templates/login.html, templates/signup.html
+
+Execute Code: python3 app.py
+
+Description: 
+* Allows user to signup and log in
+* Passwords are hashed
+* User: searches
+* Curator: search and uploads documents
+* Admin: users, documents, logs
+
+# 3.2
+Document Upload
+
+Source File: app.py
+
+Execute Code: python3 app.py
+
+Description: 
+* Saves uploaded file
+* Runs Phase 3 Pipeline
+* Uses SQL for data storage
+
+# 3.3
+Semantic Search
+
+Source File: app.py
+
+Execute Code: python3 app.py, open browser, enter a question
+
+Description: 
+* User asks a question about topic
+* Embeds the query
+* Uses FAISS
+* Displays information about question
+
+# 3.4
+Query
+
+Source File: app.py
+
+Execute Code: python3 app.py
+
+Description: 
+* Search query saved to SQL
+* Admin can view all the tables
+
+# 3.5
+Document
+
+Source File: app.py
+
+Execute Code: python3 app.py
+
+
+Description: 
+* Shows all documents
+* Displays document information
+* Admin can delete a document
+
+# 3.6
+User Management
+
+Source File: app.py
+
+Execute Code: python3 app.py
+
+
+Description: 
+* Admin can view all users
+* Edit/delete a user

@@ -3,10 +3,8 @@
 from src.db import get_connection
 
 def log_query(query_text, user_id=None):
-    """
-    Inserts a query into the query_logs table.
-    For now, user_id can be None until authentication is added.
-    """
+    #Inserts a query into the query_logs table.
+    #For now, user_id can be None until authentication is added.
     conn = get_connection()
     cur = conn.cursor()
 

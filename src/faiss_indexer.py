@@ -5,12 +5,8 @@ import faiss
 from src.db import get_connection
 
 def load_embeddings_from_db():
-    """
-    Loads all embeddings and chunk IDs from the database.
-    Returns:
-        embeddings (np.ndarray): shape (N, 384)
-        chunk_ids (list[int])
-    """
+    #Loads all embeddings and chunk IDs from the database.
+    
     conn = get_connection()
     cur = conn.cursor()
 
@@ -36,12 +32,8 @@ def load_embeddings_from_db():
 
 
 def build_faiss_index():
-    """
-    Builds a FAISS index from embeddings stored in PostgreSQL.
-    Returns:
-        index (faiss.IndexFlatIP)
-        chunk_ids (list[int])
-    """
+    #Builds a FAISS index from embeddings stored in PostgreSQL.
+    
     embeddings, chunk_ids = load_embeddings_from_db()
 
     dim = embeddings.shape[1]
