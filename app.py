@@ -237,7 +237,7 @@ def search():
 
 
 # ------------------------------
-# ADMIN: QUERY LOGS  (FIXED)
+# ADMIN: QUERY LOGS 
 # ------------------------------
 @app.route("/query_logs")
 def query_logs():
