@@ -55,12 +55,12 @@ def initialize_database():
         cur.execute(schema_sql)
         conn.commit()
 
-        print("✅ Database initialized successfully!")
+        print("Database initialized successfully!")
         cur.close()
         conn.close()
 
     except Exception as e:
-        print("❌ Error initializing database:", e)
+        print("Error initializing database:", e)
 
 
 if __name__ == "__main__":

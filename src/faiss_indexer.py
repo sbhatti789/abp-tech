@@ -29,7 +29,7 @@ def load_embeddings_from_db():
     conn.close()
 
     if not vectors:
-        raise ValueError("❌ No embeddings found in database.")
+        raise ValueError("No embeddings found in database.")
 
     embeddings = np.vstack(vectors).astype("float32")
     return embeddings, chunk_ids
@@ -45,7 +45,7 @@ def build_faiss_index():
     embeddings, chunk_ids = load_embeddings_from_db()
 
     dim = embeddings.shape[1]
-    print(f"📦 Loaded {len(chunk_ids)} vectors (dim={dim}) from SQL")
+    print(f"Loaded {len(chunk_ids)} vectors (dim={dim}) from SQL")
 
     # Normalize for cosine similarity
     faiss.normalize_L2(embeddings)
@@ -53,7 +53,7 @@ def build_faiss_index():
     index = faiss.IndexFlatIP(dim)
     index.add(embeddings)
 
-    print(f"✅ FAISS index built with {index.ntotal} vectors")
+    print(f"FAISS index built with {index.ntotal} vectors")
     return index, chunk_ids
 
 

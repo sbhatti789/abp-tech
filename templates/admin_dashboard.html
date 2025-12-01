@@ -1,31 +1,16 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Admin Dashboard</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 40px; }
-        h2 { color: #222; }
-        .container { width: 60%; margin: auto; }
-        a {
-            display: block;
-            margin: 15px;
-            font-size: 18px;
-            text-decoration: none;
-            color: #0066ff;
-        }
-    </style>
-</head>
-<body>
-<div class="container">
-    <h2>✅ Admin Dashboard</h2>
-    <p>Welcome, {{ username }}!</p>
+{% extends "base.html" %}
+{% block content %}
+<div class="card" style="width:500px;">
+    <h2>Admin Dashboard</h2>
+    <p style="text-align:center;">Welcome, {{ username }}.</p>
 
-    <a href="/users">👥 Manage Users</a>
-    <a href="/documents">📄 Manage Documents</a>
-    <a href="/query_logs">📊 View Query Logs</a>
-    <a href="/upload">📥 Upload Document</a>
-    <a href="/search">🔍 Search Database</a>
-    <a href="/logout">🚪 Logout</a>
+    <div style="text-align:center; margin-top:20px;">
+        <p><a href="/users">Manage Users</a></p>
+        <p><a href="/documents">Manage Documents</a></p>
+        <p><a href="/query_logs">View Query Logs</a></p>
+        <p><a href="/upload">Upload Document</a></p>
+        <p><a href="/search">Search Database</a></p>
+        <p><a href="/logout">Logout</a></p>
+    </div>
 </div>
-</body>
-</html>
+{% endblock %}

@@ -10,7 +10,7 @@ from src.query_sql import query_system
 from src.ingest_documents import ingest_document_file
 
 app = Flask(__name__)
-app.secret_key = "supersecretkey123"   # OK for class project
+app.secret_key = "supersecretkey123"   
 
 # ------------------------------
 # Upload settings
@@ -54,10 +54,10 @@ def signup():
                 (username, generate_password_hash(password), role),
             )
             conn.commit()
-            return render_template("signup.html", message="✅ Account created! You can now log in.")
+            return render_template("signup.html", message="Account created! You can now log in.")
         except Exception:
             conn.rollback()
-            return render_template("signup.html", message="❌ Username already exists.")
+            return render_template("signup.html", message="Username already exists.")
         finally:
             cur.close()
             conn.close()
@@ -92,7 +92,7 @@ def login():
             session["role"] = user[2]
             return redirect("/dashboard")
 
-        return render_template("login.html", message="❌ Invalid credentials.")
+        return render_template("login.html", message="Invalid credentials.")
 
     return render_template("login.html")
 
@@ -278,10 +278,10 @@ def upload():
         file = request.files.get("file")
 
         if not file or file.filename == "":
-            return render_template("upload.html", message="❌ No file selected.")
+            return render_template("upload.html", message="No file selected.")
 
         if not allowed_file(file.filename):
-            return render_template("upload.html", message="❌ Only .txt files allowed.")
+            return render_template("upload.html", message="Only .txt files allowed.")
 
         filename = secure_filename(file.filename)
         save_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
@@ -289,9 +289,9 @@ def upload():
 
         try:
             ingest_document_file(save_path, uploader_user_id=session["user_id"])
-            return render_template("upload.html", message="✅ Document uploaded and indexed!")
+            return render_template("upload.html", message="Document uploaded and indexed!")
         except Exception as e:
-            return render_template("upload.html", message=f"❌ Error: {e}")
+            return render_template("upload.html", message=f"Error: {e}")
 
     return render_template("upload.html")
 

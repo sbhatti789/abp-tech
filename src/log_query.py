@@ -19,10 +19,10 @@ def log_query(query_text, user_id=None):
             (user_id, query_text),
         )
         conn.commit()
-        print("📝 Query logged.")
+        print("Query logged.")
     except Exception as e:
         conn.rollback()
-        print("❌ Failed to log query:", e)
+        print("Failed to log query:", e)
     finally:
         cur.close()
         conn.close()

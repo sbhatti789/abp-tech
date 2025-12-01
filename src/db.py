@@ -1,7 +1,7 @@
 # src/db.py
 import psycopg2
 
-# ⚠️ Must match your working database config
+# Must match your working database config
 DB_NAME = "chicago_crimes_db"
 DB_USER = "postgres"
 DB_PASSWORD = "CS480!"

@@ -31,7 +31,7 @@
 <body>
 <div class="container">
 
-    <h2>🔍 Search the Crime Database</h2>
+    <h2>Search the Crime Database</h2>
 
     <form method="POST">
         <input
@@ -52,7 +52,6 @@
                     {{ item.filename }}
                 </a>
 
-                <!-- ✅ Show the first 300 characters of the matched text -->
                 <p>
                     {{ item.chunk[:300] }}
                     {% if item.chunk|length > 300 %}...{% endif %}
@@ -63,7 +62,7 @@
         {% endfor %}
     {% endif %}
 
-    <a href="/dashboard" class="back">⬅ Back to Dashboard</a>
+    <a href="/dashboard" class="back">Back to Dashboard</a>
 
 </div>
 </body>

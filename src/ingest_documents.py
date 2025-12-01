@@ -25,10 +25,10 @@ def ingest_document_file(file_path, uploader_user_id=None, max_chunk_size=600):
     # 2. Chunk the text
     chunks = chunk_text(text, max_chunk_size=max_chunk_size)
     if not chunks:
-        print(f"⚠️ No chunks produced for {filename}, skipping.")
+        print(f"No chunks produced for {filename}, skipping.")
         return
 
-    print(f"📄 Ingesting {filename} with {len(chunks)} chunks...")
+    print(f"Ingesting {filename} with {len(chunks)} chunks...")
 
     # 3. Connect to DB
     conn = get_connection()
@@ -67,11 +67,11 @@ def ingest_document_file(file_path, uploader_user_id=None, max_chunk_size=600):
             cur.fetchone()
 
         conn.commit()
-        print(f"✅ Finished ingesting {filename}")
+        print(f"Finished ingesting {filename}")
 
     except Exception as e:
         conn.rollback()
-        print(f"❌ Error ingesting {filename}:", e)
+        print(f"Error ingesting {filename}:", e)
 
     finally:
         cur.close()

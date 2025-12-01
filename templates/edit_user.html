@@ -1,40 +1,23 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Edit User</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        h2 { color: #222; }
-        .container { max-width: 400px; margin: auto; }
-        label { display: block; margin-top: 15px; }
-        select, button {
-            margin-top: 8px;
-            padding: 8px 12px;
-            font-size: 16px;
-        }
-        a.back { display: block; margin-top: 20px; color: #0066ff; }
-    </style>
-</head>
-<body>
-<div class="container">
-    <h2>✏️ Edit User</h2>
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <h2>Edit User</h2>
 
     <p><strong>Username:</strong> {{ user[1] }}</p>
     <p><strong>Current role:</strong> {{ user[2] }}</p>
 
     <form method="POST">
-        <label for="role">New role:</label>
-        <select name="role" id="role">
-            <option value="user"    {% if user[2] == 'user' %}selected{% endif %}>user</option>
-            <option value="curator" {% if user[2] == 'curator' %}selected{% endif %}>curator</option>
-            <option value="admin"   {% if user[2] == 'admin' %}selected{% endif %}>admin</option>
+        <select name="role">
+            <option value="user">user</option>
+            <option value="curator">curator</option>
+            <option value="admin">admin</option>
         </select>
 
-        <br><br>
         <button type="submit">Save Changes</button>
     </form>
 
-    <a href="/users" class="back">⬅ Back to Users</a>
+    <p style="text-align:center;margin-top:20px;">
+        <a href="/users">Back to Users</a>
+    </p>
 </div>
-</body>
-</html>
+{% endblock %}

@@ -1,31 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Upload Document</title>
-    <style>
-        body { font-family: Arial, sans-serif; background: #f5f5f5; text-align: center; }
-        .container { background: white; width: 500px; margin: 80px auto; padding: 25px; border-radius: 10px; }
-        input[type="file"] { margin: 20px 0; }
-        button { background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
-        button:hover { background: #0056b3; }
-        .msg { margin-top: 15px; font-weight: bold; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h2>Upload New Document</h2>
-        <form method="POST" enctype="multipart/form-data">
-            <input type="file" name="file" accept=".txt">
-            <br>
-            <button type="submit">Upload</button>
-        </form>
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <h2>Upload New Document</h2>
 
-        {% if message %}
-            <p class="msg">{{ message }}</p>
-        {% endif %}
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <button type="submit">Upload</button>
+    </form>
 
-        <br>
-        <a href="/dashboard">⬅ Back to Dashboard</a>
-    </div>
-</body>
-</html>
+    {% if message %}
+        <p style="color:red;text-align:center;">{{ message }}</p>
+    {% endif %}
+
+    <p style="text-align:center;margin-top:20px;">
+        <a href="/dashboard">Back to Dashboard</a>
+    </p>
+</div>
+{% endblock %}

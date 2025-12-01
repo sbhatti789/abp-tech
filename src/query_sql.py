@@ -8,11 +8,28 @@ from src.faiss_indexer import build_faiss_index
 from src.db import get_connection
 
 
+
+
+CRIME_KEYWORDS = {
+    "drugs": ["drug", "narcotic", "controlled substance", "possession", "distribution"],
+    "burglary": ["burglary", "break-in", "forced entry", "home invasion"],
+    "theft": ["theft", "stolen", "steal", "shoplifting"],
+    "vehicle": ["vehicle", "car", "auto theft", "motor", "stolen car"],
+    "deception": ["fraud", "deception", "forgery", "scam"],
+    "children": ["child", "minor", "children", "juvenile"],
+    "damage": ["damage", "property damage", "criminal damage"],
+    "battery": ["battery", "assault", "violence"],
+    "weapons": ["weapon", "firearm", "gun", "armed"],
+}
+
+BOOST_AMOUNT = 0.40  
+
+
+# --------------------------------------------
+# Fetch Chunk Texts
+# --------------------------------------------
+
 def fetch_chunk_texts(chunk_ids):
-    """
-    Given a list of chunk IDs, fetch their text and document filenames.
-    Returns a list of tuples: (chunk_text, filename)
-    """
     conn = get_connection()
     cur = conn.cursor()
 
@@ -29,36 +46,35 @@ def fetch_chunk_texts(chunk_ids):
     )
 
     results = cur.fetchall()
-
     cur.close()
     conn.close()
 
     return results
 
 
+# --------------------------------------------
+# Main Query System 
+# --------------------------------------------
+
 def query_system(query_text, top_k=10):
-    """
-    Vector search over chunk embeddings using FAISS,
-    then return ONLY the best match per document.
-    """
-    # 1. Build FAISS index + get mapping of FAISS IDs -> chunk IDs
+    # Build FAISS index
     index, chunk_ids = build_faiss_index()
 
-    # 2. Embed query
+    # Embed query
     model = SentenceTransformer("all-MiniLM-L6-v2")
     query_vec = model.encode([query_text], convert_to_numpy=True).astype("float32")
     faiss.normalize_L2(query_vec)
 
-    # 3. Search top 100 chunks (we’ll dedupe documents afterward)
+    # Search many chunks 
     D, I = index.search(query_vec, 100)
 
-    # 4. Map FAISS result indices -> actual chunk IDs
+    # Convert FAISS IDs: chunk IDs
     matched_chunk_ids = [chunk_ids[idx] for idx in I[0]]
 
-    # 5. Fetch chunk text + filenames
+    # Fetch chunk text & filenames
     rows = fetch_chunk_texts(matched_chunk_ids)
 
-    # 6. Deduplicate by filename (keep BEST score per document)
+    # Deduplicate by document
     best_by_doc = {}
 
     for (chunk_text, filename), score in zip(rows, D[0]):
@@ -72,21 +88,33 @@ def query_system(query_text, top_k=10):
                 "score": score
             }
 
-    # Convert dict -> list
-    results = list(best_by_doc.values())
 
-    # 7. Sort by score (ascending = more similar)
+    query_lower = query_text.lower()
+
+    for doc in best_by_doc.values():
+        fname = doc["filename"].lower()
+        text = doc["chunk"].lower()
+
+        for crime, words in CRIME_KEYWORDS.items():
+            if any(word in query_lower for word in words):
+                if any(word in fname or word in text for word in words):
+                    doc["score"] += BOOST_AMOUNT  # Boost matching files
+
+    results = list(best_by_doc.values())
     results.sort(key=lambda x: x["score"], reverse=True)
 
-    # 8. Return top K documents
     return results[:top_k]
 
 
+# --------------------------------------------
+# Command-Line Test
+# --------------------------------------------
+
 if __name__ == "__main__":
     while True:
-        user_query = input("\n🔍 Enter your query (or 'exit' to quit): ")
+        user_query = input("\nEnter your query (or 'exit' to quit): ")
         if user_query.lower() in ["exit", "quit"]:
-            print("👋 Exiting.")
+            print("Exiting.")
             break
 
         res = query_system(user_query)

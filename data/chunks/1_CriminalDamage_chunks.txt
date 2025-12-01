@@ -1,15 +1,33 @@
 --- Chunk 1 ---
-Criminal damage continues to be one of the most common offenses reported across Chicago. During the first month of 2025, several cases involved deliberate damage to vehicles, windows, and public property in both residential and commercial zones. In one incident near the airport’s exterior non-secure area, officers recorded damage to a private vehicle occurring at 03:52 a.m. on January 15. Although no arrests were made, evidence suggested the offender intentionally targeted unattended cars during early morning hours. Throughout January, similar patterns emerged in multiple districts.
+Criminal damage continues to be one of the most common offenses reported across Chicago. During the first month of 2025, several cases involved deliberate damage to vehicles, windows, and public property in both residential and commercial zones.
 
 --- Chunk 2 ---
-Vandals frequently struck parked vehicles in residential streets or small business parking lots, often breaking windows or scratching body panels. These offenses typically occurred overnight or during low-visibility hours, implying an opportunistic motive. Witnesses occasionally reported groups of youth or isolated individuals fleeing on foot, but identification proved difficult due to limited camera coverage in certain neighborhoods.
+In one incident near the airport’s exterior non-secure area, officers recorded damage to a private vehicle occurring at 03:52 a.m. on January 15. Although no arrests were made, evidence suggested the offender intentionally targeted unattended cars during early morning hours.
 
 --- Chunk 3 ---
-Analysis of police reports shows that criminal damage often correlates with spikes in petty theft and disorderly conduct, suggesting a broader trend of property-related offenses rather than isolated vandalism. Repair costs for damaged vehicles and storefronts can strain local business owners, prompting renewed calls for expanded community watch programs. The Chicago Police Department has encouraged property owners to install exterior lighting and maintain functioning surveillance systems to deter offenders.
+Throughout January, similar patterns emerged in multiple districts. Vandals frequently struck parked vehicles in residential streets or small business parking lots, often breaking windows or scratching body panels.
 
 --- Chunk 4 ---
-Data from 2023–2025 indicate that roughly half of all criminal-damage incidents involve automobiles, followed by damage to residences and public transportation property. Arrest rates remain relatively low—below 10 percent—largely due to lack of eyewitnesses. Nevertheless, increased cooperation between neighborhood associations and law enforcement has improved reporting accuracy and reduced repeat offenses in several wards. Overall, the pattern of criminal damage in early 2025 reinforces the need for preventive measures rather than reactive enforcement alone.
+These offenses typically occurred overnight or during low-visibility hours, implying an opportunistic motive. Witnesses occasionally reported groups of youth or isolated individuals fleeing on foot, but identification proved difficult due to limited camera coverage in certain neighborhoods.
 
 --- Chunk 5 ---
-Community engagement, rapid graffiti removal, and better lighting have proven modestly effective in similar districts. Continuous monitoring will help determine whether these strategies can sustain long-term reductions in property damage across Chicago’s diverse neighborhoods.
+Analysis of police reports shows that criminal damage often correlates with spikes in petty theft and disorderly conduct, suggesting a broader trend of property-related offenses rather than isolated vandalism.
+
+--- Chunk 6 ---
+Repair costs for damaged vehicles and storefronts can strain local business owners, prompting renewed calls for expanded community watch programs.
+
+--- Chunk 7 ---
+The Chicago Police Department has encouraged property owners to install exterior lighting and maintain functioning surveillance systems to deter offenders.
+
+--- Chunk 8 ---
+Data from 2023–2025 indicate that roughly half of all criminal-damage incidents involve automobiles, followed by damage to residences and public transportation property. Arrest rates remain relatively low—below 10 percent—largely due to lack of eyewitnesses.
+
+--- Chunk 9 ---
+Nevertheless, increased cooperation between neighborhood associations and law enforcement has improved reporting accuracy and reduced repeat offenses in several wards.
+
+--- Chunk 10 ---
+Overall, the pattern of criminal damage in early 2025 reinforces the need for preventive measures rather than reactive enforcement alone. Community engagement, rapid graffiti removal, and better lighting have proven modestly effective in similar districts.
+
+--- Chunk 11 ---
+Continuous monitoring will help determine whether these strategies can sustain long-term reductions in property damage across Chicago’s diverse neighborhoods.
 
