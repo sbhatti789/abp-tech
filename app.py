@@ -275,6 +275,7 @@ def query_logs():
 # ------------------------------
 @app.route("/upload", methods=["GET", "POST"])
 def upload():
+    # Allow curator and admin
     if "user_id" not in session or session.get("role") not in ["curator", "admin"]:
         return redirect("/dashboard")
 
@@ -293,7 +294,7 @@ def upload():
 
         try:
             ingest_document_file(save_path, uploader_user_id=session["user_id"])
-            return render_template("upload.html", message="Document uploaded and indexed!")
+            return render_template("upload.html", message="Document uploaded and indexed.")
         except Exception as e:
             return render_template("upload.html", message=f"Error: {e}")
 
