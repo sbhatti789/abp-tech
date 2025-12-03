@@ -68,11 +68,7 @@ def chunk_text(text, max_chunk_size=600, overlap=0, *args, **kwargs):
 def process_documents(input_folder="data/documents",
                       output_folder="data/chunks",
                       max_chunk_size=600):
-    """
-    Optional helper script version, not used by Flask directly.
-    Reads all .txt files in input_folder and writes chunked versions into
-    output_folder as *_chunks.txt.
-    """
+
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
