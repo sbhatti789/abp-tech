@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="dashboard-container" style="
+    max-width: 450px;
+    margin: 60px auto;
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    text-align: center;
+">
+    <h2 style="margin-bottom: 15px; font-size: 28px; font-weight: 600;">
+        Curator Dashboard
+    </h2>
+
+    <p style="font-size: 18px; margin-bottom: 25px;">
+        Welcome, {{ username }}.
+    </p>
+
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+
+        <a href="/search" style="font-size: 17px; color: #1a73e8; text-decoration: none;">
+            Search Database
+        </a>
+
+        <a href="/upload" style="font-size: 17px; color: #1a73e8; text-decoration: none;">
+            Upload Document
+        </a>
+
+        <a href="/documents" style="font-size: 17px; color: #1a73e8; text-decoration: none;">
+            Manage Documents
+        </a>
+
+        <a href="/logout" style="font-size: 17px; color: #1a73e8; text-decoration: none; margin-top: 10px;">
+            Logout
+        </a>
+
+    </div>
+</div>
+{% endblock %}

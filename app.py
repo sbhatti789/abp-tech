@@ -111,11 +111,15 @@ def logout():
 # ------------------------------
 @app.route("/dashboard")
 def dashboard():
-    if "user_id" not in session:
-        return redirect("/login")
+    if "username" not in session:
+        return redirect(url_for("login"))
 
-    if session.get("role") == "admin":
+    role = session["role"]
+
+    if role == "admin":
         return render_template("admin_dashboard.html", username=session["username"])
+    elif role == "curator":
+        return render_template("curator_dashboard.html", username=session["username"])
     else:
         return render_template("user_dashboard.html", username=session["username"])
 
@@ -341,7 +345,11 @@ def view_document(filename):
 # ------------------------------
 @app.route("/documents")
 def documents():
-    if "user_id" not in session or session.get("role") != "admin":
+    if "user_id" not in session:
+        return redirect("/login")
+
+    # Allow admin AND curator
+    if session.get("role") not in ["admin", "curator"]:
         return redirect("/dashboard")
 
     conn = get_connection()
