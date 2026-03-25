@@ -1,4 +1,4 @@
-# AI-Powered Document Search System (abp-tech)
+# Document Question Answering System
 
 A full-stack intelligent document search system that allows users to upload documents and perform semantic search using natural language queries. This application leverages vector embeddings and a FAISS-based vector database to retrieve the most relevant information from large text datasets.
 
